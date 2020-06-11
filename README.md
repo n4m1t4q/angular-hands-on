@@ -718,7 +718,7 @@ Angular の理解をさらに深めるため、上記のような機能を実装
 
 ### もっと知りたい方は
 
-今回のハンズオンで使用したのは、Angular が提供する昨日のごく一部です。もっと深く知りたい方は、以下のドキュメントを参考にしてみてください。
+今回のハンズオンで使用したのは、Angular が提供する機能のごく一部です。もっと深く知りたい方は、以下のドキュメントを参考にしてみてください。
 
 - [Angular Docs](https://angular.io/docs)
 - [Angular CLI](https://github.com/angular/angular-cli)
