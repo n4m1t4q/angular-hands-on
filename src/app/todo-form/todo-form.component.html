@@ -1,0 +1,7 @@
+<form>
+  <mat-form-field>
+    <mat-label>Todo title</mat-label>
+    <input type="text" matInput [(ngModel)]="title" name="title">
+  </mat-form-field>
+  <button type="button" mat-raised-button color="primary" (click)="create()">Create</button>
+</form>

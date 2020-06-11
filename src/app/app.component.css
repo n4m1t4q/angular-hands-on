@@ -1,3 +1,5 @@
-p {
-  font-family: Lato;
+.todo-card {
+  margin: 30px auto auto;
+  width: 400px;
+  padding: 30px;
 }
