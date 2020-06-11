@@ -46,6 +46,7 @@ repository は private にすることもできます。後の操作には特に
 まずはじめに、画面左部のファイルツリーから `app.component.html` を**ダブルクリック**して開き、その内容を以下のように書き換えてください。
 
 #### `app.component.html`
+
 ``` html
 <h1>Hello World!</h1>
 ```
@@ -170,7 +171,7 @@ export const todoList: Todo[] = [
 #### `app.component.ts`
 
 ``` ts
-import { Component, VERSION } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { todoList } from './todoList';
 
@@ -188,6 +189,7 @@ export class AppComponent  {
 次に、`app.component.html` を以下の通りに書き換えてください。
 
 #### `app.component.html`
+
 ``` html
 <h1>
   {{ title }}
