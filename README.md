@@ -201,7 +201,7 @@ export class AppComponent  {
 
 `*ngFor` という構文が出てきました。ここでは、`app.component.ts` 内で定義された配列 `todoList` の各要素を繰り返し表示することを行なっています。
 
-`*ngFor` のようなテンプレートを拡張する機能を *ディレクティブ* と呼びます。使い方はとてもシンプルですが、とても骨のある Angular の重要な機能です。興味のある方は、ぜひ詳しく調べてみてください(頭についているアスタリスクは何者?、など)。
+`*ngFor` のような html を拡張する機能を *ディレクティブ* と呼びます。使い方はとてもシンプルですが、とても骨のある Angular の重要な機能です。興味のある方は、ぜひ詳しく調べてみてください(頭についているアスタリスクは何者?、など)。
 
 ひとまずこれで、ご自身で定義した Todo リスト が表示されたはずです。おめでとうございます！
 
@@ -378,9 +378,9 @@ export class TodoListComponent implements OnInit {
 <app-todo-list [todoList]="todoList"></app-todo-list>
 ```
 
-これで `AppComponent` のテンプレートの見通しが良くなりました。
+これで `AppComponent` の html の見通しが良くなりました。
 
-ところで、チェックが入っている Todo に取り消し線がつかなくなっていることに気づきましたか? Angular には、自動的に CSS をスコープ化する機能があります。ここでは、`TodoListComponent` のテンプレートには `todo-list.component.css` の内容しか適用されません。`app.component.css` の内容も `todo-list.component.css` に移植して、取り消し線がつくことを確かめましょう。
+ところで、チェックが入っている Todo に取り消し線がつかなくなっていることに気づきましたか? Angular には、自動的に CSS をスコープ化する機能があります。ここでは、`TodoListComponent` の html には `todo-list.component.css` の内容しか適用されません。`app.component.css` の内容も `todo-list.component.css` に移植して、取り消し線がつくことを確かめましょう。
 
 確認ができたら変更を commit し、次のステップに進みましょう(このステップの commit は[こちら](https://github.com/n4m1t4q/angular-hands-on/commit/510f71486d1cb7b51f84f0764070c19d68117a8d))。
 
@@ -419,13 +419,13 @@ Todo 作成フォームといっても、必要なのはテキストボックス
 <button>Create</button>
 ```
 
-次に、ボタンのクリックイベントを取得します。HTML 要素からイベントを取得するには、*イベントバインディング*構文を使用します。ここでは、`button` 要素に `(click)` 属性を追加して、右辺にコンポーネントのメソッドを指定します。
+次に、ボタンのクリックイベントを取得します。html 要素からイベントを取得するには、*イベントバインディング*構文を使用します。ここでは、`button` 要素に `(click)` 属性を追加して、右辺にコンポーネントのメソッドを指定します。
 
 ``` html
 <button (click)="create()">Create</button>
 ```
 
-エラーが表示されてしまいました。`TodoFormComponent` に `create` メソッドの定義がないからですね。追加していきましょう。
+エラーが表示されてしまいました。これは `TodoFormComponent` に `create` メソッドの定義がないためです。
 
 `todo-forｍ.component.ts` を以下の通りに書き換えてください。
 
