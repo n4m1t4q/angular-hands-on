@@ -135,9 +135,9 @@ export interface Todo {
 `app` フォルダを右クリックし、今度は1階層目の `New File` を選択します。`todoList` と入力し、`todoList.ts` ファイルが生成されたことを確認してください。
 このファイルの中で、先ほど定義した `Todo` モデルを使用していきます。
 
-`todoList` の内容を以下のように書き換えてください。
+`todoList.ts` の内容を以下のように書き換えてください。
 
-#### `todoList`
+#### `todoList.ts`
 
 ``` ts
 import { Todo } from './todo';
