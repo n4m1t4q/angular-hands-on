@@ -8,10 +8,9 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-form.component.css']
 })
 export class TodoFormComponent implements OnInit {
-
   title: string;
 
-  @Output() submit = new EventEmitter<Todo>();
+  @Output() submit = new EventEmitter<string>();
 
   constructor() { }
 
@@ -19,11 +18,8 @@ export class TodoFormComponent implements OnInit {
   }
 
   create() {
-    if (this.title) {
-      const todo: Todo = { title: this.title, completed: false };
-      this.submit.emit(todo);
-      this.title = '';
-    }
+    this.submit.emit(this.title);
+    this.title = '';
   }
 
 }

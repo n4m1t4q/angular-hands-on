@@ -1,6 +1,6 @@
 <mat-list class="todo-list">
   <mat-list-item *ngFor="let todo of todoList; last as last" [class.completed]="todo.completed">
     <mat-checkbox [(ngModel)]="todo.completed">{{todo.title}}</mat-checkbox>
-    <mat-divider *ngIf="!last"></mat-divider>
+    <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
   </mat-list-item>
 </mat-list>

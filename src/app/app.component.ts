@@ -1,6 +1,6 @@
 import { Component, VERSION } from '@angular/core';
 
-import { todoList} from './todoList';
+import { todoList } from './todoList';
 
 import { Todo } from './todo';
 
@@ -11,9 +11,12 @@ import { Todo } from './todo';
 })
 export class AppComponent  {
   title = 'My todo-list';
-  todoList = todoList;
+  todoList: Todo[] = [...todoList];
 
-  addTodo(todo: Todo) {
-    this.todoList.unshift(todo);
+  addTodo(title: string) {
+    this.todoList.unshift({
+      title: title,
+      completed: false
+    } as Todo);
   }
 }

@@ -3,5 +3,5 @@
     <mat-label>Todo title</mat-label>
     <input type="text" matInput [(ngModel)]="title" name="title">
   </mat-form-field>
-  <button type="button" mat-raised-button color="primary" (click)="create()">Create</button>
+  <button type="button" mat-raised-button color="primary" [disabled]="!title" (click)="create()">Create</button>
 </form>
