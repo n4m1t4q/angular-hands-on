@@ -491,8 +491,17 @@ export class TodoFormComponent implements OnInit {
 
 バインディングが成功したことがわかるように、`create` メソッドで表示するアラートで `title` プロパティを表示してみましょう。
 
-``` ts
-  title: string;
+``` diff
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-todo-form',
+  templateUrl: './todo-form.component.html',
+  styleUrls: ['./todo-form.component.css']
+})
+export class TodoFormComponent implements OnInit {
+
++   title: string;
 
   constructor() { }
 
@@ -500,8 +509,11 @@ export class TodoFormComponent implements OnInit {
   }
 
   create() {
-    alert(this.title);
+-     alert("create!");
++     alert(this.title);
   }
+
+}
 ```
 
 テキストボックスに入力した内容がアラートに表示されることが確認できるはずです。
