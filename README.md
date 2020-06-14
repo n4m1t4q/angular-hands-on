@@ -524,6 +524,8 @@ export class TodoFormComponent implements OnInit {
 
 親から子へデータを渡すときは `Input` デコレータを使用しましたが、子から親にイベントを発火するには `Output` デコレータを使用します。今回は、`submit` というイベントを定義します。イベントの定義は、`EventEmitter` 型のプロパティに `Output` デコレータを付与します。`EventEmitter` ではイベントとして渡すデータの型をジェネリクスで指定します。
 
+#### `todo-form.component.ts`
+
 ``` ts
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
