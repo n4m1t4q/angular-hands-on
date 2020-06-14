@@ -56,7 +56,7 @@ repository は private にすることもできます。後の操作には特に
 ### 変数を表示してみる
 
 html にベタ書きした内容が表示できることは確認できました。
-次に、プログラミングらしく変数に格納した値を html で表示する、ということをやってみましょう。
+次に、プログラミングらしく変数に格納した値をテンプレートで表示する、ということをやってみましょう。
 
 `app.component.ts` を開き、その内容を以下の通りに書き換えてください。
 
@@ -85,7 +85,7 @@ export class AppComponent  {
 </h1>
 ```
 
-何やら二重の中括弧で囲むという見慣れない構文で、`app.component.ts` 内で定義した文字列の内容が画面に表示されました。これを *プロパティバインディング* と呼びます。
+何やら二重の中括弧で囲むという見慣れない構文で、`app.component.ts` 内で定義した文字列の内容が画面に表示されました。これを *インターポレーション(補完)* と呼びます。
 
 その名称を覚える必要はありません。ここで行われているのは、`app.component.ts` 内で定義された `title` という変数の値を表示することです。コード的にもとても直感的ですね。
 これが Angular で変数を表示する際の、最も基本的な書き方です。
@@ -102,7 +102,7 @@ export class AppComponent  {
 
 あまり難しく考える必要はありません。画面(というよりはアプリケーション)を構成する部品一つ一つのことなんだなー、くらいのスタンスで OK です。
 
-title の内容を書き換えて保存すると、表示されるテキストが変わるはずです。それが確認できたら、画面上部にある `Commit` ボタンを押下して変更を commit し、次のステップに進みましょう(このステップの commit は[こちら](https://github.com/n4m1t4q/angular-hands-on/commit/60c22672a877033a90cd2fab2e9681dbe4811556))。
+title の内容を書き換えて保存すると、表示されるテキストが変わるはずです。それが確認できたら、画面上部にある `Commit` ボタンを押下して変更を commit し、次のステップに進みましょう。
 
 ## Step 2: Todo リスト を表示する
 
@@ -175,6 +175,8 @@ import { Component } from '@angular/core';
 
 import { todoList } from './todoList';
 
+import { Todo } from './todo';
+
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
@@ -182,9 +184,13 @@ import { todoList } from './todoList';
 })
 export class AppComponent  {
   title = 'My todo-list';
-  todoList = todoList;
+  todoList: Todo[] = [...todoList];
 }
 ```
+
+12行目では、import した `todoList` 元に*スプレッド構文*を使用して新しい配列を生成しています。
+スプレッド構文は配列ライクなオブジェクトを個々の値に展開することができる便利な構文です。
+右辺をそのまま `todoList` としても動きはしますが、メモリ安全のために敢えてこのような書き方としています。
 
 次に、`app.component.html` を以下の通りに書き換えてください。
 
@@ -203,7 +209,7 @@ export class AppComponent  {
 
 `*ngFor` という構文が出てきました。ここでは、`app.component.ts` 内で定義された配列 `todoList` の各要素を繰り返し表示することを行なっています。
 
-`*ngFor` のような html を拡張する機能を *ディレクティブ* と呼びます。使い方はとてもシンプルですが、とても骨のある Angular の重要な機能です。興味のある方は、ぜひ詳しく調べてみてください(頭についているアスタリスクは何者?、など)。
+`*ngFor` のようなテンプレートを拡張する機能を *ディレクティブ* と呼びます。使い方はとてもシンプルでありながらとても強力な Angular の重要な機能です。興味のある方は、ぜひ詳しく調べてみてください(頭についているアスタリスクは何者?、など)。
 
 ひとまずこれで、ご自身で定義した Todo リスト が表示されたはずです。おめでとうございます！
 
@@ -244,7 +250,7 @@ export class AppComponent  {
 ```
 
 これで、完了済み Todo に取り消し線が追加されたはずです。まだまだ見た目はシンプルですが、Todo リスト らしくなってきました。
-変更を commit し、次のステップに進みましょう(このステップの commit は[こちら](https://github.com/n4m1t4q/angular-hands-on/commit/acec0bfa862d90db2d1c4e650f3c93bde9ee1c62))。
+変更を commit し、次のステップに進みましょう。
 
 ## Step 3: Todo の状態を更新する
 
@@ -252,7 +258,7 @@ export class AppComponent  {
 
 ### チェックボックスと状態を同期する
 
-Todo リスト の表示はできるようになりましたが、このままでは Todo の完了状態を更新することができません。画面上で完了状態を更新するために、チェックボックスを配置してみましょう。ここで、ユーザーからの入力を受ける html 要素と、コンポーネントの状態を同期するために組み込みディレクティブである `[(ngModel)]` を使用します。
+Todo リスト の表示はできるようになりましたが、このままでは Todo の完了状態を更新することができません。画面上で完了状態を更新するために、チェックボックスを配置してみましょう。ここで、ユーザーからの入力を受けるテンプレート要素とコンポーネントの状態を同期するために、組み込みディレクティブである `[(ngModel)]` を使用します。
 
 `app.component.html` を以下の通りに書き換えてください。
 
@@ -269,9 +275,25 @@ Todo リスト の表示はできるようになりましたが、このまま�
 </ul>
 ```
 
-`[(ngModel)]` は、*双方向データバインディング*を提供するディレクティブです。双方向データバインディングでは、`[(ngModel)]` のように2つの括弧を使用して記述します。
+`[(ngModel)]` は、*双方向バインディング*を提供するディレクティブです。双方向データバインディングでは、`[(ngModel)]` のように2つの括弧を使用して記述します。
 
 画面上で、チェックボックスの状態によって取り消し線の付与が動的に変わることが確認できるはずです。
+
+### データバインディング
+
+ここで、ここまでに何度か登場してきた `(データ)バインディング` について触れておきます。
+
+データバインディングは、コンポーネントにおける**テンプレートとクラス内の要素を繋ぐ仕組み**で、データフローの方向によって3つのカテゴリーに分類できます。
+
+|バインディングタイプ|構文|方向|
+|-|-|-|
+|インターポレーション<br>プロパティ<br>属性<br>クラス<br>スタイル|`{{ expression }}`<br>`[target]="expression"`|データソースからビューターゲットへ
+|イベント|`(target)="statement"`|ビューターゲットからデータソースへ
+|双方向|`[(target)]="expression"`|双方向
+
+この後も何度か登場する重要な概念ですので、それがどの方向のバインディングなのか、何を行なっているのかを意識しながら手を動かしてみてください。
+
+ref: [バインディング構文: 概要 - angular.jp](https://angular.jp/guide/template-syntax#%E3%83%90%E3%82%A4%E3%83%B3%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E6%A7%8B%E6%96%87-%E6%A6%82%E8%A6%81)
 
 ### コンポーネントとして切り出す
 
@@ -380,11 +402,11 @@ export class TodoListComponent implements OnInit {
 <app-todo-list [todoList]="todoList"></app-todo-list>
 ```
 
-これで `AppComponent` の html の見通しが良くなりました。
+これで `AppComponent` のテンプレートの見通しが良くなりました。
 
-ところで、チェックが入っている Todo に取り消し線がつかなくなっていることに気づきましたか? Angular には、自動的に CSS をスコープ化する機能があります。ここでは、`TodoListComponent` の html には `todo-list.component.css` の内容しか適用されません。`app.component.css` の内容も `todo-list.component.css` に移植して、取り消し線がつくことを確かめましょう。
+ところで、チェックが入っている Todo に取り消し線がつかなくなっていることに気づきましたか? Angular には、自動的に CSS をスコープ化する機能があります。ここでは、`TodoListComponent` のテンプレートには `todo-list.component.css` の内容しか適用されません。`app.component.css` の内容も `todo-list.component.css` に移植して、取り消し線がつくことを確かめましょう。
 
-確認ができたら変更を commit し、次のステップに進みましょう(このステップの commit は[こちら](https://github.com/n4m1t4q/angular-hands-on/commit/510f71486d1cb7b51f84f0764070c19d68117a8d))。
+確認ができたら変更を commit し、次のステップに進みましょう。
 
 ## Step 4: Todo 作成フォームを作る
 
@@ -457,10 +479,11 @@ export class TodoFormComponent implements OnInit {
 
 ### テキストボックスと双方向データバインディングする
 
-`<input>` 要素のテキストをコンポーネントの中で使うために、先ほど使った `ngModel` を再び使用します。`TodoFormComponent` に `title` プロパティを追加し、`ngModel` の双方向データバインディングの対象にします。
+`<input>` 要素のテキストをコンポーネントの中で使うために、先ほど使った `ngModel` を再び使用します。`TodoFormComponent` に `title` プロパティを追加し、`ngModel` の双方向データバインディングの対象にします。また、入力が空の際に `button` 要素を非活性にするために、属性バインディングを使用します。
 
 ``` html
 <input type="text" [(ngModel)]="title">
+<button (click)="create()" [disabled]="!title">Create</button>
 ```
 
 バインディングが成功したことがわかるように、`create` メソッドで表示するアラートで `title` プロパティを表示してみましょう。
@@ -497,10 +520,9 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-form.component.css']
 })
 export class TodoFormComponent implements OnInit {
-
   title: string;
 
-  @Output() submit = new EventEmitter<Todo>();
+  @Output() submit = new EventEmitter<string>();
 
   constructor() { }
 
@@ -514,15 +536,12 @@ export class TodoFormComponent implements OnInit {
 }
 ```
 
-イベントを発火するには、`EventEmitter` クラスの `emit` メソッドを呼び出します。`create` メソッドで、新しい Todo の作成とイベントの発火を行いましょう。
+イベントを発火するには、`EventEmitter` クラスの `emit` メソッドを呼び出します。`create` メソッドで、新しい Todo の作成のためのイベントの発火を行いましょう。
 
 ``` ts
   create() {
-    if (this.title) {
-      const todo: Todo = {title: this.title, completed: false};
-      this.submit.emit(todo);
-      this.title = '';
-    }
+   this.submit.emit(this.title);
+   this.title = '';
   }
 ```
 
@@ -548,9 +567,13 @@ import { Todo } from './todo';
 })
 export class AppComponent  {
   title = 'My todo-list';
-  todoList = todoList;
+  todoList: Todo[] = [...todoList];
 
-  addTodo(todo: Todo) {
+  addTodo(title: string) {
+    const todo: Todo = {
+      title: title,
+      completed: false
+    };
     this.todoList.unshift(todo);
   }
 }
@@ -561,7 +584,7 @@ export class AppComponent  {
 
 次のステップでは、*マテリアルデザイン*を適用してアプリをオシャレに仕上げます！
 
-変更を commit し、次のステップに進みましょう(このステップの commit は[こちら](https://github.com/n4m1t4q/angular-hands-on/commit/acec0bfa862d90db2d1c4e650f3c93bde9ee1c62))。
+変更を commit し、次のステップに進みましょう。
 
 ## Step 5: アプリにマテリアルデザインを適用する
 
@@ -669,9 +692,9 @@ Card デザインを適用しました。すでにオシャレ感満載ですね
 <form>
   <mat-form-field>
     <mat-label>Todo title</mat-label>
-    <input type="text" matInput [(ngModel)]="title" name="title">
+    <input type="text" matInput [(ngModel)]="title">
   </mat-form-field>
-  <button type="button" mat-raised-button color="primary" (click)="create()">Create</button>
+  <button type="button" mat-raised-button color="primary" [disabled]="!title" (click)="create()">Create</button>
 </form>
 ```
 
@@ -701,7 +724,7 @@ mat-form-field {
 </mat-list>
 ```
 
-Angular Material のおかげで、あっという間に素敵なアプリケーションに生まれ変わりました。これでこのハンズオンは終了です。お疲れ様でした！(このステップの commit は[こちら](https://github.com/n4m1t4q/angular-hands-on/commit/b8647f6c109fcc648e24368f0c38dbd05fc70c86))
+Angular Material のおかげで、あっという間に素敵なアプリケーションに生まれ変わりました。これでこのハンズオンは終了です。お疲れ様でした！
 
 ## Appendix
 
