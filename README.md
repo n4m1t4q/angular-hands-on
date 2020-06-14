@@ -555,22 +555,51 @@ export class TodoFormComponent implements OnInit {
 
 イベントを発火するには、`EventEmitter` クラスの `emit` メソッドを呼び出します。`create` メソッドで、新しい Todo の作成のためのイベントの発火を行いましょう。
 
-``` ts
-  create() {
-   this.submit.emit(this.title);
-   this.title = '';
+``` diff
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+import { Todo } from '../todo';
+
+@Component({
+  selector: 'app-todo-form',
+  templateUrl: './todo-form.component.html',
+  styleUrls: ['./todo-form.component.css']
+})
+export class TodoFormComponent implements OnInit {
+  title: string;
+
+  @Output() submit = new EventEmitter<string>();
+
+  constructor() { }
+
+  ngOnInit() {
   }
+
+  create() {
+-     alert(this.title);
++     this.submit.emit(this.title);
++     this.title = '';
+  }
+
+}
 ```
 
 あとは、親である `AppComponent` 側で `submit` イベントを受け取って、リストに追加するだけです。イベントの受け取り方はボタンのクリックイベントと同じです。しかし今回は、`emit` メソッドの引数が必要なので、`$event` という特殊な変数を使ってそれを受け取ります。
 
-``` html
-<app-todo-form (submit)="addTodo($event)"></app-todo-form>
+``` diff
+<h1>
+  {{ title }}
+</h1>
+- <app-todo-form></app-todo-form>
++ <app-todo-form (submit)="addTodo($event)"></app-todo-form>
+<app-todo-list [todoList]="todoList"></app-todo-list>
 ```
 
 `AppComponent` に `addTodo` メソッドを追加すれば、Todo アプリケーションの機能は完成です。
 
-``` ts
+#### `app.component.ts`
+
+``` diff
 import { Component, VERSION } from '@angular/core';
 
 import { todoList } from './todoList';
@@ -585,14 +614,14 @@ import { Todo } from './todo';
 export class AppComponent  {
   title = 'My todo-list';
   todoList: Todo[] = [...todoList];
-
-  addTodo(title: string) {
-    const todo: Todo = {
-      title: title,
-      completed: false
-    };
-    this.todoList.unshift(todo);
-  }
++ 
++   addTodo(title: string) {
++     const todo: Todo = {
++       title: title,
++       completed: false
++     };
++     this.todoList.unshift(todo);
++   }
 }
 ```
 
