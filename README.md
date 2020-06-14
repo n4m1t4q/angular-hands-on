@@ -435,6 +435,8 @@ export class TodoListComponent implements OnInit {
 
 Todo 作成フォームといっても、必要なのはテキストボックスとボタンだけです。まずはシンプルに `<input>` 要素と `<buton>` 要素を配置しましょう。
 
+#### `todo-form.component.html`
+
 ``` html
 <input type="text"> 
 <button>Create</button>
