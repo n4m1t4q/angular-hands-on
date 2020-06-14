@@ -444,8 +444,10 @@ Todo 作成フォームといっても、必要なのはテキストボックス
 
 次に、ボタンのクリックイベントを取得します。html 要素からイベントを取得するには、*イベントバインディング*構文を使用します。ここでは、`button` 要素に `(click)` 属性を追加して、右辺にコンポーネントのメソッドを指定します。
 
-``` html
-<button (click)="create()">Create</button>
+``` diff
+<input type="text"> 
+- <button>Create</button>
++ <button (click)="create()">Create</button>
 ```
 
 エラーが表示されてしまいました。これは `TodoFormComponent` に `create` メソッドの定義がないためです。
@@ -480,9 +482,11 @@ export class TodoFormComponent implements OnInit {
 
 `<input>` 要素のテキストをコンポーネントの中で使うために、先ほど使った `ngModel` を再び使用します。`TodoFormComponent` に `title` プロパティを追加し、`ngModel` の双方向データバインディングの対象にします。また、入力が空の際に `button` 要素を非活性にするために、属性バインディングを使用します。
 
-``` html
-<input type="text" [(ngModel)]="title">
-<button (click)="create()" [disabled]="!title">Create</button>
+``` diff
+- <input type="text"> 
+- <button (click)="create()">Create</button>
++ <input type="text" [(ngModel)]="title">
++ <button (click)="create()" [disabled]="!title">Create</button>
 ```
 
 バインディングが成功したことがわかるように、`create` メソッドで表示するアラートで `title` プロパティを表示してみましょう。
