@@ -738,7 +738,7 @@ Card デザインを適用しました。すでにオシャレ感満載ですね
 <form>
   <mat-form-field>
     <mat-label>Todo title</mat-label>
-    <input type="text" matInput [(ngModel)]="title">
+    <input type="text" matInput [(ngModel)]="title" name="title">
   </mat-form-field>
   <button type="button" mat-raised-button color="primary" [disabled]="!title" (click)="create()">Create</button>
 </form>
