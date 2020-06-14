@@ -14,9 +14,10 @@ export class AppComponent  {
   todoList: Todo[] = [...todoList];
 
   addTodo(title: string) {
-    this.todoList.unshift({
+    const todo: Todo = {
       title: title,
       completed: false
-    } as Todo);
+    };
+    this.todoList.unshift(todo);
   }
 }
