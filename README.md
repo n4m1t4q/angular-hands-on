@@ -242,7 +242,7 @@ export class AppComponent  {
 
 ``` css
 .completed {
-  text-decolation: line-through;
+  text-decoration: line-through;
 }
 ```
 
