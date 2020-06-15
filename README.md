@@ -726,7 +726,7 @@ export class AppModule { }
 ``` html
 <mat-card class="todo-card">
   <mat-card-title>
-    {{title}}
+    {{ title }}
   </mat-card-title>
 
   <mat-card-content>
