@@ -454,6 +454,8 @@ Todo 作成フォームといっても、必要なのはテキストボックス
 
 次に、ボタンのクリックイベントを取得します。html 要素からイベントを取得するには、*イベントバインディング*構文を使用します。ここでは、`button` 要素に `(click)` 属性を追加して、右辺にコンポーネントのメソッドを指定します。
 
+#### `todo-form.component.html`
+
 ``` diff
 <input type="text"> 
 - <button>Create</button>
@@ -492,6 +494,8 @@ export class TodoFormComponent implements OnInit {
 
 `<input>` 要素のテキストをコンポーネントの中で使うために、先ほど使った `ngModel` を再び使用します。`TodoFormComponent` に `title` プロパティを追加し、`ngModel` の双方向データバインディングの対象にします。また、入力が空の際に `button` 要素を非活性にするために、属性バインディングを使用します。
 
+#### `todo-form.component.html`
+
 ``` diff
 - <input type="text"> 
 - <button (click)="create()">Create</button>
@@ -500,6 +504,8 @@ export class TodoFormComponent implements OnInit {
 ```
 
 バインディングが成功したことがわかるように、`create` メソッドで表示するアラートで `title` プロパティを表示してみましょう。
+
+#### `todo-form.component.ts`
 
 ``` diff
 import { Component, OnInit } from '@angular/core';
@@ -565,6 +571,8 @@ export class TodoFormComponent implements OnInit {
 
 イベントを発火するには、`EventEmitter` クラスの `emit` メソッドを呼び出します。`create` メソッドで、新しい Todo の作成のためのイベントの発火を行いましょう。
 
+#### `todo-form.component.ts`
+
 ``` diff
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
@@ -595,6 +603,8 @@ export class TodoFormComponent implements OnInit {
 ```
 
 あとは、親である `AppComponent` 側で `submit` イベントを受け取って、リストに追加するだけです。イベントの受け取り方はボタンのクリックイベントと同じです。しかし今回は、`emit` メソッドの引数が必要なので、`$event` という特殊な変数を使ってそれを受け取ります。
+
+#### `app.component.html`
 
 ``` diff
 <h1>
