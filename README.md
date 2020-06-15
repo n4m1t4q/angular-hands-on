@@ -242,7 +242,7 @@ export class AppComponent  {
 
 ``` css
 .completed {
-  text-decolation: line-through;
+  text-decoration: line-through;
 }
 ```
 
@@ -435,6 +435,8 @@ export class TodoListComponent implements OnInit {
 
 Todo 作成フォームといっても、必要なのはテキストボックスとボタンだけです。まずはシンプルに `<input>` 要素と `<buton>` 要素を配置しましょう。
 
+#### `todo-form.component.html`
+
 ``` html
 <input type="text"> 
 <button>Create</button>
@@ -442,8 +444,10 @@ Todo 作成フォームといっても、必要なのはテキストボックス
 
 次に、ボタンのクリックイベントを取得します。html 要素からイベントを取得するには、*イベントバインディング*構文を使用します。ここでは、`button` 要素に `(click)` 属性を追加して、右辺にコンポーネントのメソッドを指定します。
 
-``` html
-<button (click)="create()">Create</button>
+``` diff
+<input type="text"> 
+- <button>Create</button>
++ <button (click)="create()">Create</button>
 ```
 
 エラーが表示されてしまいました。これは `TodoFormComponent` に `create` メソッドの定義がないためです。
@@ -478,15 +482,26 @@ export class TodoFormComponent implements OnInit {
 
 `<input>` 要素のテキストをコンポーネントの中で使うために、先ほど使った `ngModel` を再び使用します。`TodoFormComponent` に `title` プロパティを追加し、`ngModel` の双方向データバインディングの対象にします。また、入力が空の際に `button` 要素を非活性にするために、属性バインディングを使用します。
 
-``` html
-<input type="text" [(ngModel)]="title">
-<button (click)="create()" [disabled]="!title">Create</button>
+``` diff
+- <input type="text"> 
+- <button (click)="create()">Create</button>
++ <input type="text" [(ngModel)]="title">
++ <button (click)="create()" [disabled]="!title">Create</button>
 ```
 
 バインディングが成功したことがわかるように、`create` メソッドで表示するアラートで `title` プロパティを表示してみましょう。
 
-``` ts
-  title: string;
+``` diff
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-todo-form',
+  templateUrl: './todo-form.component.html',
+  styleUrls: ['./todo-form.component.css']
+})
+export class TodoFormComponent implements OnInit {
+
++   title: string;
 
   constructor() { }
 
@@ -494,8 +509,11 @@ export class TodoFormComponent implements OnInit {
   }
 
   create() {
-    alert(this.title);
+-     alert("create!");
++     alert(this.title);
   }
+
+}
 ```
 
 テキストボックスに入力した内容がアラートに表示されることが確認できるはずです。
@@ -505,6 +523,8 @@ export class TodoFormComponent implements OnInit {
 最後に、`create` メソッドをきちんと実装し、Todo リスト に追加されるようにしましょう。しかし、`TodoFormComponent` は Todo リスト を持っていません。リストに新しい Todo を追加するには、`AppComponent` に新しい Todo の追加をお願いする必要があります。具体的には、**子から親へデータを送る**ため、**イベント**を発火します。
 
 親から子へデータを渡すときは `Input` デコレータを使用しましたが、子から親にイベントを発火するには `Output` デコレータを使用します。今回は、`submit` というイベントを定義します。イベントの定義は、`EventEmitter` 型のプロパティに `Output` デコレータを付与します。`EventEmitter` ではイベントとして渡すデータの型をジェネリクスで指定します。
+
+#### `todo-form.component.ts`
 
 ``` ts
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
@@ -535,22 +555,51 @@ export class TodoFormComponent implements OnInit {
 
 イベントを発火するには、`EventEmitter` クラスの `emit` メソッドを呼び出します。`create` メソッドで、新しい Todo の作成のためのイベントの発火を行いましょう。
 
-``` ts
-  create() {
-   this.submit.emit(this.title);
-   this.title = '';
+``` diff
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+import { Todo } from '../todo';
+
+@Component({
+  selector: 'app-todo-form',
+  templateUrl: './todo-form.component.html',
+  styleUrls: ['./todo-form.component.css']
+})
+export class TodoFormComponent implements OnInit {
+  title: string;
+
+  @Output() submit = new EventEmitter<string>();
+
+  constructor() { }
+
+  ngOnInit() {
   }
+
+  create() {
+-     alert(this.title);
++     this.submit.emit(this.title);
++     this.title = '';
+  }
+
+}
 ```
 
 あとは、親である `AppComponent` 側で `submit` イベントを受け取って、リストに追加するだけです。イベントの受け取り方はボタンのクリックイベントと同じです。しかし今回は、`emit` メソッドの引数が必要なので、`$event` という特殊な変数を使ってそれを受け取ります。
 
-``` html
-<app-todo-form (submit)="addTodo($event)"></app-todo-form>
+``` diff
+<h1>
+  {{ title }}
+</h1>
+- <app-todo-form></app-todo-form>
++ <app-todo-form (submit)="addTodo($event)"></app-todo-form>
+<app-todo-list [todoList]="todoList"></app-todo-list>
 ```
 
 `AppComponent` に `addTodo` メソッドを追加すれば、Todo アプリケーションの機能は完成です。
 
-``` ts
+#### `app.component.ts`
+
+``` diff
 import { Component, VERSION } from '@angular/core';
 
 import { todoList } from './todoList';
@@ -565,14 +614,14 @@ import { Todo } from './todo';
 export class AppComponent  {
   title = 'My todo-list';
   todoList: Todo[] = [...todoList];
-
-  addTodo(title: string) {
-    const todo: Todo = {
-      title: title,
-      completed: false
-    };
-    this.todoList.unshift(todo);
-  }
++ 
++   addTodo(title: string) {
++     const todo: Todo = {
++       title: title,
++       completed: false
++     };
++     this.todoList.unshift(todo);
++   }
 }
 ```
 
@@ -689,7 +738,7 @@ Card デザインを適用しました。すでにオシャレ感満載ですね
 <form>
   <mat-form-field>
     <mat-label>Todo title</mat-label>
-    <input type="text" matInput [(ngModel)]="title">
+    <input type="text" matInput [(ngModel)]="title" name="title">
   </mat-form-field>
   <button type="button" mat-raised-button color="primary" [disabled]="!title" (click)="create()">Create</button>
 </form>
