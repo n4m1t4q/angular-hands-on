@@ -3,7 +3,7 @@
 ## Index
 - [Step 0: StackBlitz で Angular 開発環境をワンクリックで構築する](#step-0-stackblitz-で-angular-開発環境をワンクリックで構築する)
 - [Step 1: Hello World!](#step-1-hello-world)
-- [Step 2: Todo リスト を表示する](#step-2-todo-リスト-を表示する)
+- [Step 2: Todo リストを表示する](#step-2-todo-リスト-を表示する)
 - [Step 3: Todo の状態を更新する](#step-3-todo-の状態を更新する)
 - [Step 4: Todo 作成フォームを作る](#step-4-todo-作成フォームを作る)
 - [Step 5: アプリにマテリアルデザインを適用する](#step-5-アプリにマテリアルデザインを適用する)
@@ -101,13 +101,13 @@ export class AppComponent  {
 
 title の内容を書き換えて保存すると、表示されるテキストが変わるはずです。それが確認できたら、画面上部にある `Commit` ボタンを押下して変更を commit し、次のステップに進みましょう。
 
-## Step 2: Todo リスト を表示する
+## Step 2: Todo リストを表示する
 
-本ステップのゴール: 完了状態の区別がつく Todo リスト を表示する
+本ステップのゴール: 完了状態の区別がつく Todo リストを表示する
 
 ### Todo interface
 
-このハンズオンでは Todo リスト を作ることをゴールとしています。
+このハンズオンでは Todo リストを作ることをゴールとしています。
 そのためにまずは、`Todo` をデータモデルとして定義することから始めましょう。
 
 ファイルツリー内に `app` というフォルダがあります。ここを**右クリック**すると、真ん中に `Angular Generator` という選択肢が見つかります。ここにカーソルを乗せると、さらにカラフルな選択肢が現れます。ここでは、`interface` を選択します。
@@ -125,7 +125,7 @@ export interface Todo {
 }
 ```
 
-これで、タイトルを表す文字列型の `title`、完了状態を表すブール型の `completed` という2つのプロパティを持つ `Todo` というモデル定義が出来上がりました。次に、このモデルを利用した Todo リスト を作ってみましょう。
+これで、タイトルを表す文字列型の `title`、完了状態を表すブール型の `completed` という2つのプロパティを持つ `Todo` というモデル定義が出来上がりました。次に、このモデルを利用した Todo リストを作ってみましょう。
 
 ### make todoList
 
@@ -155,11 +155,11 @@ export const todoList: Todo[] = [
 ];
 ```
 
-なお、要素はいくつあっても構いませんし、それらの値に対する制約もありません(強いて言えば、型定義に即していること)。画面に表示したい Todo リスト を作ってみましょう。
+なお、要素はいくつあっても構いませんし、それらの値に対する制約もありません(強いて言えば、型定義に即していること)。画面に表示したい Todo リストを作ってみましょう。
 
 ここでのポイントは、1行目で `Todo` というモデルを `import` し、配列の型としてそれを利用していることです。これにより、各要素に `title` および `completed` が含まれているかを検知することができるようになります。
 
-### Todo リスト を表示する
+### Todo リストを表示する
 
 先ほど `app.component.html` で `title` を表示したように、今度は `todoList` を表示してみましょう。
 
@@ -208,7 +208,7 @@ export class AppComponent  {
 
 `*ngFor` のようなテンプレートを拡張する機能を *ディレクティブ* と呼びます。使い方はとてもシンプルでありながらとても強力な Angular の重要な機能です。興味のある方は、ぜひ詳しく調べてみてください(頭についているアスタリスクは何者?、など)。
 
-ひとまずこれで、ご自身で定義した Todo リスト が表示されたはずです。おめでとうございます！
+ひとまずこれで、ご自身で定義した Todo リストが表示されたはずです。おめでとうございます！
 
 ### 完了済みの Todo にスタイルを適用する
 
@@ -246,7 +246,7 @@ export class AppComponent  {
 }
 ```
 
-これで、完了済み Todo に取り消し線が追加されたはずです。まだまだ見た目はシンプルですが、Todo リスト らしくなってきました。
+これで、完了済み Todo に取り消し線が追加されたはずです。まだまだ見た目はシンプルですが、Todo リストらしくなってきました。
 変更を commit し、次のステップに進みましょう。
 
 ## Step 3: Todo の状態を更新する
@@ -255,7 +255,7 @@ export class AppComponent  {
 
 ### チェックボックスと状態を同期する
 
-Todo リスト の表示はできるようになりましたが、このままでは Todo の完了状態を更新することができません。画面上で完了状態を更新するために、チェックボックスを配置してみましょう。ここで、ユーザーからの入力を受けるテンプレート要素とコンポーネントの状態を同期するために、組み込みディレクティブである `[(ngModel)]` を使用します。
+Todo リストの表示はできるようになりましたが、このままでは Todo の完了状態を更新することができません。画面上で完了状態を更新するために、チェックボックスを配置してみましょう。ここで、ユーザーからの入力を受けるテンプレート要素とコンポーネントの状態を同期するために、組み込みディレクティブである `[(ngModel)]` を使用します。
 
 `app.component.html` を以下の通りに書き換えてください。
 
@@ -294,7 +294,7 @@ ref: [バインディング構文: 概要 - angular.jp](https://angular.jp/guide
 
 ### コンポーネントとして切り出す
 
-ここまで `AppComponent` が全ての役割を担っていましたが、見通しを良くするためにここまでの Todo リスト の表示に必要な要素をコンポーネントとして切り出してみましょう。
+ここまで `AppComponent` が全ての役割を担っていましたが、見通しを良くするためにここまでの Todo リストの表示に必要な要素をコンポーネントとして切り出してみましょう。
 
 `app` フォルダを右クリックし、`Angular Generator` 内の `Component` を選択します。`TodoList` と入力し、`app` フォルダ配下に `todo-list` フォルダと、その配下に CSS・html・ts ファイルが生成されたことを確認してください。
 
@@ -329,18 +329,16 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-
   todoList: Todo[];
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }
 ```
 
-ではここで、`app.component.html` の Todo リスト に充たる部分を `TodoListComponent` で置き換えてみましょう。
+ではここで、`app.component.html` の Todo リストに充たる部分を `TodoListComponent` で置き換えてみましょう。
 
 `app.component.html` を以下の通りに書き換えてください。
 
@@ -353,7 +351,7 @@ export class TodoListComponent implements OnInit {
 <app-todo-list></app-todo-list>
 ```
 
-さっきまで表示されていた Todo リスト が消えてしまいました。`TodoListComponent` の `todoList` プロパティに値がセットされていないので、リストには何も表示されません。Todo リスト のデータを持っているのは、`TodoListComponent` の親である `AppComponent` なので、`AppComponent` から `TodoListComponent` にデータを渡す、という処理ができると良さそうです。
+さっきまで表示されていた Todo リストが消えてしまいました。`TodoListComponent` の `todoList` プロパティに値がセットされていないので、リストには何も表示されません。Todo リストのデータを持っているのは、`TodoListComponent` の親である `AppComponent` なので、`AppComponent` から `TodoListComponent` にデータを渡す、という処理ができると良さそうです。
 
 ### 子コンポーネントにデータを渡す
 
@@ -374,14 +372,12 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-
   @Input() todoList: Todo[];
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }
 ```
 
@@ -411,7 +407,7 @@ export class TodoListComponent implements OnInit {
 
 ### TodoFormComponent を作成する
 
-ここまで、あらかじめ定義された Todo リスト を表示する、ということをやってきました。今度は、画面から任意に Todo を追加できるようにしてみます。
+ここまで、あらかじめ定義された Todo リストを表示する、ということをやってきました。今度は、画面から任意に Todo を追加できるようにしてみます。
 
 `app` フォルダを右クリックし、`Angular Generator` 内の `Component` を選択します。`TodoForm` と入力し、`app` フォルダ配下に `todo-form` フォルダと、その配下に CSS・html・ts ファイルが生成されたことを確認してください。
 
@@ -461,7 +457,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./todo-form.component.css']
 })
 export class TodoFormComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {
@@ -470,7 +465,6 @@ export class TodoFormComponent implements OnInit {
   create() {
     alert("create!");
   }
-
 }
 ```
 
@@ -502,7 +496,7 @@ export class TodoFormComponent implements OnInit {
 
 ### Todo を作成してリストに追加する
 
-最後に、`create` メソッドをきちんと実装し、Todo リスト に追加されるようにしましょう。しかし、`TodoFormComponent` は Todo リスト を持っていません。リストに新しい Todo を追加するには、`AppComponent` に新しい Todo の追加をお願いする必要があります。具体的には、**子から親へデータを送る**ため、**イベント**を発火します。
+最後に、`create` メソッドをきちんと実装し、Todo リストに追加されるようにしましょう。しかし、`TodoFormComponent` は Todo リストを持っていません。リストに新しい Todo を追加するには、`AppComponent` に新しい Todo の追加をお願いする必要があります。具体的には、**子から親へデータを送る**ため、**イベント**を発火します。
 
 親から子へデータを渡すときは `Input` デコレータを使用しましたが、子から親にイベントを発火するには `Output` デコレータを使用します。今回は、`submit` というイベントを定義します。イベントの定義は、`EventEmitter` 型のプロパティに `Output` デコレータを付与します。`EventEmitter` ではイベントとして渡すデータの型をジェネリクスで指定します。
 
@@ -529,7 +523,6 @@ export class TodoFormComponent implements OnInit {
   create() {
     alert(this.title);
   }
-
 }
 ```
 
