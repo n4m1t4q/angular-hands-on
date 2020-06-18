@@ -4,7 +4,7 @@
   </mat-card-title>
 
   <mat-card-content>
-    <app-todo-form (submit)="addTodo($event)"></app-todo-form>
+    <app-todo-form (add)="addTodo($event)"></app-todo-form>
     <app-todo-list [todoList]="todoList"></app-todo-list>
   </mat-card-content>
 </mat-card>

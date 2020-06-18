@@ -533,7 +533,7 @@ export class TodoFormComponent implements OnInit {
 
 最後に、`create` メソッドをきちんと実装し、Todo リストに追加されるようにしましょう。しかし、`TodoFormComponent` は Todo リストを持っていません。リストに新しい Todo を追加するには、`AppComponent` に新しい Todo の追加をお願いする必要があります。具体的には、**子から親へデータを送る**ため、**イベント**を発火します。
 
-親から子へデータを渡すときは `Input` デコレータを使用しましたが、子から親にイベントを発火するには `Output` デコレータを使用します。今回は、`submit` というイベントを定義します。イベントの定義は、`EventEmitter` 型のプロパティに `Output` デコレータを付与します。`EventEmitter` ではイベントとして渡すデータの型をジェネリクスで指定します。
+親から子へデータを渡すときは `Input` デコレータを使用しましたが、子から親にイベントを発火するには `Output` デコレータを使用します。今回は、`add` というイベントを定義します。イベントの定義は、`EventEmitter` 型のプロパティに `Output` デコレータを付与します。`EventEmitter` ではイベントとして渡すデータの型をジェネリクスで指定します。
 
 #### `todo-form.component.ts`
 
@@ -551,7 +551,7 @@ import { Todo } from '../todo';
 export class TodoFormComponent implements OnInit {
   title: string;
 
-+   @Output() submit = new EventEmitter<string>();
++   @Output() add = new EventEmitter<string>();
 
   constructor() { }
 
@@ -581,7 +581,7 @@ import { Todo } from '../todo';
 export class TodoFormComponent implements OnInit {
   title: string;
 
-  @Output() submit = new EventEmitter<string>();
+  @Output() add = new EventEmitter<string>();
 
   constructor() { }
 
@@ -590,14 +590,14 @@ export class TodoFormComponent implements OnInit {
 
   create() {
 -     alert(this.title);
-+     this.submit.emit(this.title);
++     this.add.emit(this.title);
 +     this.title = '';
   }
 
 }
 ```
 
-あとは、親である `AppComponent` 側で `submit` イベントを受け取って、リストに追加するだけです。イベントの受け取り方はボタンのクリックイベントと同じです。しかし今回は、`emit` メソッドの引数が必要なので、`$event` という特殊な変数を使ってそれを受け取ります。
+あとは、親である `AppComponent` 側で `add` イベントを受け取って、リストに追加するだけです。イベントの受け取り方はボタンのクリックイベントと同じです。しかし今回は、`emit` メソッドの引数が必要なので、`$event` という特殊な変数を使ってそれを受け取ります。
 
 #### `app.component.html`
 
@@ -606,7 +606,7 @@ export class TodoFormComponent implements OnInit {
   {{ title }}
 </h1>
 - <app-todo-form></app-todo-form>
-+ <app-todo-form (submit)="addTodo($event)"></app-todo-form>
++ <app-todo-form (add)="addTodo($event)"></app-todo-form>
 <app-todo-list [todoList]="todoList"></app-todo-list>
 ```
 
@@ -725,7 +725,7 @@ export class AppModule { }
   </mat-card-title>
 
   <mat-card-content>
-    <app-todo-form (submit)="addTodo($event)"></app-todo-form>
+    <app-todo-form (add)="addTodo($event)"></app-todo-form>
     <app-todo-list [todoList]="todoList"></app-todo-list>
   </mat-card-content>
 </mat-card>

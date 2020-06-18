@@ -8,12 +8,10 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-
   @Input() todoList: Todo[];
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }
