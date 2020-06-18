@@ -157,7 +157,7 @@ export const todoList: Todo[] = [
 
 なお、要素はいくつあっても構いませんし、それらの値に対する制約もありません(強いて言えば、型定義に即していること)。画面に表示したい Todo リストを作ってみましょう。
 
-ここでのポイントは、1行目で `Todo` というモデルを `import` し、配列の型としてそれを利用していることです。これにより、各要素に `title` および `completed` が含まれているかを検知することができるようになります。
+ここでのポイントは、1行目で `Todo` というモデルを import し、配列の型としてそれを利用していることです。これにより、各要素に `title` および `completed` が含まれているかを検知することができるようになります。
 
 ### Todo リストを表示する
 
@@ -185,7 +185,7 @@ export class AppComponent  {
 }
 ```
 
-14行目では、import した `todoList` 元に*スプレッド構文*を使用して新しい配列を生成しています。スプレッド構文は配列ライクなオブジェクトを個々の値に展開することができる便利な構文です。以下のコード例を参考にイメージを掴んでみてください。
+14行目では、import した `todoList` を元に*スプレッド構文*を使用して新しい配列を生成しています。スプレッド構文は配列ライクなオブジェクトを個々の値に展開することができる便利な構文です。以下のコード例を参考にイメージを掴んでみてください。
 
 `spreadSyntax.ts`
 
@@ -371,8 +371,9 @@ export class TodoListComponent implements OnInit {
 
 #### `todo-list.component.ts`
 
-``` ts
-import { Component, OnInit, Input } from '@angular/core';
+``` diff
+- import { Component, OnInit } from '@angular/core';
++ import { Component, OnInit, Input } from '@angular/core';
 
 import { Todo } from '../todo';
 
@@ -382,7 +383,7 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-  @Input() todoList: Todo[];
++   @Input() todoList: Todo[];
 
   constructor() { }
 
@@ -464,7 +465,7 @@ Todo 作成フォームといっても、必要なのはテキストボックス
 
 #### `todo-form.component.ts`
 
-``` ts
+``` diff
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -478,9 +479,9 @@ export class TodoFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  create() {
-    alert("create!");
-  }
++   create() {
++     alert("create!");
++   }
 }
 ```
 
@@ -536,8 +537,9 @@ export class TodoFormComponent implements OnInit {
 
 #### `todo-form.component.ts`
 
-``` ts
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+``` diff
+- import { Component, OnInit } from '@angular/core';
++ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Todo } from '../todo';
 
@@ -549,7 +551,7 @@ import { Todo } from '../todo';
 export class TodoFormComponent implements OnInit {
   title: string;
 
-  @Output() submit = new EventEmitter<string>();
++   @Output() submit = new EventEmitter<string>();
 
   constructor() { }
 
@@ -647,7 +649,7 @@ export class AppComponent  {
 
 ## Step 5: アプリにマテリアルデザインを適用する
 
-本ステップのゴール: Angular Material を利用して Todo アプリ をオシャレに仕上げる
+本ステップのゴール: Angular Material を利用して Todo アプリをオシャレに仕上げる
 
 ### Angular Material をインストールする
 
