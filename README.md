@@ -47,8 +47,12 @@ repository は private にすることもできます。後の操作には特に
 
 #### `app.component.html`
 
-``` html
-<h1>Hello World!</h1>
+``` diff
+- <hello name="{{ name }}"></hello>
+- <p>
+-   Start editing to see some magic happen :)
+- </p>
++ <h1>Hello World!</h1>
 ```
 
 右のデモ画面に大きく `Hello World` と表示されたら成功です、おめでとうございます！
@@ -62,8 +66,9 @@ html にベタ書きした内容が表示できることは確認できました
 
 #### `app.component.ts`
 
-``` ts
-import { Component } from '@angular/core';
+``` diff
+- import { Component, VERSION } from '@angular/core';
++ import { Component } from '@angular/core';
 
 @Component({
   selector: 'my-app',
@@ -71,7 +76,8 @@ import { Component } from '@angular/core';
   styleUrls: [ './app.component.css' ]
 })
 export class AppComponent  {
-  title = 'My todo-list';
+-   name = 'Angular ' + VERSION.major;
++   title = 'My todo-list';
 }
 ```
 
@@ -79,10 +85,11 @@ export class AppComponent  {
 
 #### `app.component.html`
 
-``` html
-<h1>
-  {{ title }}
-</h1>
+``` diff
+- <h1>Hello World!</h1>
++ <h1>
++   {{ title }}
++ </h1>
 ```
 
 何やら二重の中括弧で囲むという見慣れない構文で、`app.component.ts` 内で定義した文字列の内容が画面に表示されました。これを *インターポレーション(補完)* と呼びます。ここで行われているのは、`app.component.ts` 内で定義された `title` という変数の値を表示することです。コード的にもとても直感的ですね。これが Angular で変数を表示する際の、最も基本的な書き方です。
@@ -118,10 +125,10 @@ title の内容を書き換えて保存すると、表示されるテキスト�
 
 #### `todo.ts`
 
-``` ts
+``` diff
 export interface Todo {
-  title: string;
-  completed: boolean;
++   title: string;
++   completed: boolean;
 }
 ```
 
@@ -167,12 +174,12 @@ export const todoList: Todo[] = [
 
 #### `app.component.ts`
 
-``` ts
+``` diff
 import { Component } from '@angular/core';
 
-import { todoList } from './todoList';
++ import { todoList } from './todoList';
 
-import { Todo } from './todo';
++ import { Todo } from './todo';
 
 @Component({
   selector: 'my-app',
@@ -181,7 +188,7 @@ import { Todo } from './todo';
 })
 export class AppComponent  {
   title = 'My todo-list';
-  todoList: Todo[] = [...todoList];
++   todoList: Todo[] = [...todoList];
 }
 ```
 
@@ -203,15 +210,15 @@ console.log(arr2);
 
 #### `app.component.html`
 
-``` html
+``` diff
 <h1>
   {{ title }}
 </h1>
-<ul>
-  <li *ngFor="let todo of todoList">
-    {{ todo.title }}
-  </li>
-</ul>
++ <ul>
++   <li *ngFor="let todo of todoList">
++     {{ todo.title }}
++   </li>
++ </ul>
 ```
 
 `*ngFor` という構文が出てきました。ここでは、`app.component.ts` 内で定義された配列 `todoList` の各要素を繰り返し表示することを行なっています。
@@ -229,12 +236,13 @@ console.log(arr2);
 
 #### `app.component.html`
 
-``` html
+``` diff
 <h1>
   {{ title }}
 </h1>
 <ul>
-  <li *ngFor="let todo of todoList" [class.completed]="todo.completed">
+-   <li *ngFor="let todo of todoList">
++   <li *ngFor="let todo of todoList" [class.completed]="todo.completed">
     {{ todo.title }}
   </li>
 </ul>
@@ -271,13 +279,14 @@ Todo リストの表示はできるようになりましたが、このままで
 
 #### `app.component.html`
 
-``` html
+``` diff
 <h1>
   {{ title }}
 </h1>
 <ul>
   <li *ngFor="let todo of todoList" [class.completed]="todo.completed">
-    <input type="checkbox" [(ngModel)]="todo.completed">{{ todo.title }}
+-     {{ todo.title }}  
++     <input type="checkbox" [(ngModel)]="todo.completed">{{ todo.title }}
   </li>
 </ul>
 ```
@@ -328,10 +337,10 @@ ref: [バインディング構文: 概要 - angular.jp](https://angular.jp/guide
 
 #### `todo-list.component.ts`
 
-``` ts
+``` diff
 import { Component, OnInit } from '@angular/core';
 
-import { Todo } from '../todo';
++ import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo-list',
@@ -339,7 +348,7 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-  todoList: Todo[];
++   todoList: Todo[];
 
   constructor() { }
 
@@ -354,11 +363,16 @@ export class TodoListComponent implements OnInit {
 
 #### `app.component.html`
 
-``` html
+``` diff
 <h1>
   {{ title }}
 </h1>
-<app-todo-list></app-todo-list>
+- <ul>
+-   <li *ngFor="let todo of todoList" [class.completed]="todo.completed">
+-     <input type="checkbox" [(ngModel)]="todo.completed">{{ todo.title }}
+-   </li>
+- </ul>
++ <app-todo-list></app-todo-list>
 ```
 
 さっきまで表示されていた Todo リストが消えてしまいました。`TodoListComponent` の `todoList` プロパティに値がセットされていないので、リストには何も表示されません。Todo リストのデータを持っているのは、`TodoListComponent` の親である `AppComponent` なので、`AppComponent` から `TodoListComponent` にデータを渡す、という処理ができると良さそうです。
@@ -399,11 +413,12 @@ export class TodoListComponent implements OnInit {
 
 #### `app.component.html`
 
-``` html
+``` diff
 <h1>
   {{ title }}
 </h1>
-<app-todo-list [todoList]="todoList"></app-todo-list>
+- <app-todo-list></app-todo-list>
++ <app-todo-list [todoList]="todoList"></app-todo-list>
 ```
 
 これで `AppComponent` のテンプレートの見通しが良くなりました。
@@ -428,11 +443,11 @@ export class TodoListComponent implements OnInit {
 
 #### `app.component.html`
 
-``` html
+``` diff
 <h1>
   {{ title }}
 </h1>
-<app-todo-form></app-todo-form>
++ <app-todo-form></app-todo-form>
 <app-todo-list [todoList]="todoList"></app-todo-list>
 ```
 
@@ -484,6 +499,8 @@ export class TodoFormComponent implements OnInit {
 +   }
 }
 ```
+
+この状態でボタンをクリックすると、アラートダイアログが表示されるはずです。
 
 ### テキストボックスと双方向データバインディングする
 
